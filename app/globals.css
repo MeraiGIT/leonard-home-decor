@@ -3,6 +3,11 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  /* Brand Colors */
+  --brand-maroon: #722F37;
+  --brand-gold: #D4AF37;
+  --brand-maroon-dark: #5a252a;
+  --brand-gold-light: #E5C158;
 }
 
 @theme inline {
@@ -23,4 +28,160 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Animation classes */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 1s ease-out;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.8s ease-out forwards;
+  opacity: 0;
+}
+
+.animate-slide-up.delay-100 {
+  animation-delay: 0.1s;
+}
+
+.animate-slide-up.delay-200 {
+  animation-delay: 0.2s;
+}
+
+.animate-slide-up.delay-300 {
+  animation-delay: 0.3s;
+}
+
+/* Line clamp utility */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Letter spacing utilities */
+.letter-spacing-wider {
+  letter-spacing: 0.2em;
+}
+
+/* Slow bounce animation for scroll indicator */
+@keyframes bounce-slow {
+  0%, 100% {
+    transform: translate(-50%, 0);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translate(-50%, 10px);
+    opacity: 1;
+  }
+}
+
+.animate-bounce-slow {
+  animation: bounce-slow 3s ease-in-out infinite;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar for luxury feel */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--brand-maroon);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--brand-maroon-dark);
+}
+
+/* Select styling improvements */
+select {
+  cursor: pointer;
+}
+
+select option {
+  padding: 10px;
+}
+
+/* Navigation link styles */
+.nav-link {
+  color: #722F37;
+}
+
+.nav-link:hover {
+  color: #D4AF37;
+}
+
+/* Navigation button styles */
+.nav-button {
+  color: #722F37;
+  border: 1px solid #722F37;
+  background-color: transparent;
+}
+
+.nav-button:hover {
+  background-color: #722F37;
+  color: white;
+}
+
+/* CTA Button styles */
+.cta-button-primary {
+  background-color: #722F37;
+  color: white;
+}
+
+.cta-button-primary:hover {
+  background-color: #5a252a;
+}
+
+.cta-button-secondary {
+  border-color: #722F37;
+  color: #722F37;
+  background-color: transparent;
+}
+
+.cta-button-secondary:hover {
+  background-color: #722F37;
+  color: white;
+}
+
+/* Brand card styles */
+.brand-card {
+  border-color: #D4AF37;
+}
+
+.brand-card:hover {
+  border-color: #722F37;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2);
 }
