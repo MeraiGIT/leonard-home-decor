@@ -14,6 +14,7 @@ if (fs.existsSync(envPath)) {
 
 // Environment variables
 const GOOGLE_SHEET_ID = process.env.GOOGLE_SHEET_ID
+const GOOGLE_CREDENTIALS_JSON = process.env.GOOGLE_CREDENTIALS_JSON
 const GOOGLE_CREDENTIALS_PATH = process.env.GOOGLE_CREDENTIALS_PATH
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL
 const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY
@@ -22,8 +23,8 @@ const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY
 if (!GOOGLE_SHEET_ID) {
   throw new Error('GOOGLE_SHEET_ID environment variable is required')
 }
-if (!GOOGLE_CREDENTIALS_PATH) {
-  throw new Error('GOOGLE_CREDENTIALS_PATH environment variable is required')
+if (!GOOGLE_CREDENTIALS_JSON && !GOOGLE_CREDENTIALS_PATH) {
+  throw new Error('Either GOOGLE_CREDENTIALS_JSON or GOOGLE_CREDENTIALS_PATH environment variable is required')
 }
 if (!SUPABASE_URL) {
   throw new Error('NEXT_PUBLIC_SUPABASE_URL environment variable is required')
@@ -42,13 +43,32 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
 
 // Initialize Google Sheets API
 async function initializeSheetsAPI() {
-  const credentialsPath = path.resolve(GOOGLE_CREDENTIALS_PATH!)
-  
-  if (!fs.existsSync(credentialsPath)) {
-    throw new Error(`Credentials file not found at: ${credentialsPath}`)
-  }
+  let credentials: any
 
-  const credentials = JSON.parse(fs.readFileSync(credentialsPath, 'utf8'))
+  // Check if GOOGLE_CREDENTIALS_JSON is provided (for Vercel/deployed environments)
+  if (GOOGLE_CREDENTIALS_JSON) {
+    try {
+      // Decode from base64 and parse as JSON
+      const decoded = Buffer.from(GOOGLE_CREDENTIALS_JSON, 'base64').toString('utf8')
+      credentials = JSON.parse(decoded)
+      console.log('✅ Using credentials from GOOGLE_CREDENTIALS_JSON environment variable')
+    } catch (error) {
+      throw new Error(`Failed to parse GOOGLE_CREDENTIALS_JSON: ${error instanceof Error ? error.message : 'Unknown error'}`)
+    }
+  } 
+  // Fall back to file path (for local development)
+  else if (GOOGLE_CREDENTIALS_PATH) {
+    const credentialsPath = path.resolve(GOOGLE_CREDENTIALS_PATH)
+    
+    if (!fs.existsSync(credentialsPath)) {
+      throw new Error(`Credentials file not found at: ${credentialsPath}`)
+    }
+
+    credentials = JSON.parse(fs.readFileSync(credentialsPath, 'utf8'))
+    console.log(`✅ Using credentials from file: ${credentialsPath}`)
+  } else {
+    throw new Error('No credentials provided. Set either GOOGLE_CREDENTIALS_JSON or GOOGLE_CREDENTIALS_PATH')
+  }
   
   const auth = new google.auth.GoogleAuth({
     credentials,
