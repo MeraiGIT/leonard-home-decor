@@ -1,6 +1,31 @@
+/**
+ * @fileoverview About page component
+ * 
+ * Displays company information including:
+ * - Company description and mission
+ * - Featured brands showcase
+ * - Why choose us section with key benefits
+ * - Call-to-action buttons for products and contact
+ * - Footer with company information
+ * 
+ * Uses the same luxury design language as the homepage with maroon and gold
+ * color scheme, elegant typography, and sophisticated layout.
+ */
+
 import Link from 'next/link'
 import Header from '@/app/components/Header'
 
+/**
+ * About page component
+ * 
+ * Provides information about Leonard Home Decor including:
+ * - Company description and value proposition
+ * - Complete list of featured brands
+ * - Four key benefits (authenticity, pricing, assortment, custom orders)
+ * - Navigation to product catalog and contact options
+ * 
+ * @returns {JSX.Element} Complete about page with hero, content sections, and footer
+ */
 export default function About() {
   return (
     <div className="min-h-screen bg-white">

@@ -1,3 +1,17 @@
+/**
+ * @fileoverview Main homepage component
+ * 
+ * Displays the luxury home decor e-commerce homepage featuring:
+ * - Hero section with brand introduction
+ * - Product catalog with filtering capabilities
+ * - Brand and price filters
+ * - Product grid with hover image effects
+ * - Footer with company information
+ * 
+ * Products are fetched from Supabase and filtered client-side based on
+ * user selections. Only products with stock > 0 are displayed.
+ */
+
 'use client'
 
 import { useEffect, useState } from 'react'
@@ -6,6 +20,9 @@ import Image from 'next/image'
 import { supabase } from '@/lib/supabase'
 import Header from '@/app/components/Header'
 
+/**
+ * Product data structure from Supabase
+ */
 interface Product {
   id: string
   name: string
@@ -16,6 +33,21 @@ interface Product {
   image_url_2: string | null
 }
 
+/**
+ * Home page component
+ * 
+ * Main landing page that displays:
+ * - Hero section with company branding
+ * - Product collection with filters
+ * - Footer with contact information
+ * 
+ * Features:
+ * - Real-time product filtering by brand and price
+ * - Responsive grid layout
+ * - Image hover effects showing alternate product views
+ * 
+ * @returns {JSX.Element} Complete homepage with hero, products, and footer
+ */
 export default function Home() {
   const [products, setProducts] = useState<Product[]>([])
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([])
@@ -59,7 +91,19 @@ export default function Home() {
     fetchProducts()
   }, [])
 
-  // Filter products based on selected brand and price
+  /**
+   * Filters products based on selected brand and price criteria
+   * 
+   * Runs whenever selectedBrand, selectedPrice, or products change.
+   * Applies filters sequentially:
+   * 1. Brand filter (if not 'all')
+   * 2. Price range filter (if not 'all')
+   * 
+   * Price ranges:
+   * - 'under-50000': Products under 50,000 ₽
+   * - '50000-150000': Products between 50,000 and 150,000 ₽
+   * - 'over-150000': Products over 150,000 ₽
+   */
   useEffect(() => {
     let filtered = [...products]
 
@@ -116,7 +160,7 @@ export default function Home() {
             <div className="w-24 h-px bg-gradient-to-r from-transparent via-[#D4AF37]/50 to-transparent mx-auto mb-8" />
             <h1 className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-serif text-[#D4AF37] mb-6 tracking-wider uppercase letter-spacing-wider">
               LEONARD
-            </h1>
+          </h1>
             <div className="w-32 h-px bg-[#D4AF37] mx-auto my-2" />
             <h2 className="text-xl sm:text-2xl lg:text-3xl font-sans text-[#D4AF37] tracking-widest uppercase">
               HOME DECOR
@@ -300,8 +344,8 @@ export default function Home() {
                 <li>
                   <a 
                     href="https://wa.me/79957844513" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
+            target="_blank"
+            rel="noopener noreferrer"
                     className="hover:text-[#D4AF37] transition-colors duration-300"
                   >
                     +7 (995) 784-45-13
@@ -333,7 +377,20 @@ export default function Home() {
   )
 }
 
-// Product Card Component
+/**
+ * Product Card Component
+ * 
+ * Displays a single product in the product grid with:
+ * - Square image container with hover effect (switches to image_url_2 on hover)
+ * - Brand name (small, gray text)
+ * - Product name (bold, 2 lines max with ellipsis)
+ * - Price in rubles format
+ * 
+ * @param {Object} props - Component props
+ * @param {Product} props.product - Product data object containing id, name, brand, price, stock, and image URLs
+ * 
+ * @returns {JSX.Element} Product card with image, brand, name, and price
+ */
 function ProductCard({ product }: { product: Product }) {
   const [hovered, setHovered] = useState(false)
   const imageUrl = hovered && product.image_url_2 ? product.image_url_2 : product.image_url_1

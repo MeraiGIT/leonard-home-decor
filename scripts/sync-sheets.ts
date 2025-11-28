@@ -1,3 +1,36 @@
+/**
+ * @fileoverview Google Sheets to Supabase synchronization script
+ * 
+ * This script synchronizes product data from Google Sheets to Supabase database.
+ * It can be run manually via `npm run sync` for local development or testing.
+ * 
+ * Process:
+ * 1. Loads environment variables from .env.local or .env
+ * 2. Initializes Google Sheets API (supports both file and base64 credentials)
+ * 3. Reads product data from Google Sheets (range A2:J100)
+ * 4. Extracts hyperlinks for image URLs
+ * 5. Processes and filters products (stock > 0)
+ * 6. Deletes all existing products from Supabase
+ * 7. Inserts new products in batches
+ * 
+ * Column Mapping:
+ * - A: Product name
+ * - B: Brand name
+ * - E: Stock quantity
+ * - F: Price (supports ruble format: ₽27,000.00)
+ * - G: First image URL
+ * - H: Second image URL
+ * 
+ * Usage:
+ *   npm run sync
+ * 
+ * Environment Variables Required:
+ * - GOOGLE_SHEET_ID: Google Sheet ID
+ * - GOOGLE_CREDENTIALS_JSON or GOOGLE_CREDENTIALS_PATH: Google service account credentials
+ * - NEXT_PUBLIC_SUPABASE_URL: Supabase project URL
+ * - SUPABASE_SERVICE_ROLE_KEY: Supabase service role key (for elevated permissions)
+ */
+
 import { google } from 'googleapis'
 import { createClient } from '@supabase/supabase-js'
 import * as fs from 'fs'
@@ -41,7 +74,16 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
   }
 })
 
-// Initialize Google Sheets API
+/**
+ * Initializes Google Sheets API client
+ * 
+ * Supports two credential methods:
+ * 1. GOOGLE_CREDENTIALS_JSON (base64 encoded) - for Vercel/deployed environments
+ * 2. GOOGLE_CREDENTIALS_PATH (file path) - for local development
+ * 
+ * @returns {Promise<any>} Google Sheets API client instance
+ * @throws {Error} If credentials are missing, invalid, or file not found
+ */
 async function initializeSheetsAPI() {
   let credentials: any
 
@@ -81,7 +123,16 @@ async function initializeSheetsAPI() {
   return sheets
 }
 
-// Read data from Google Sheets
+/**
+ * Reads product data from Google Sheets
+ * 
+ * Fetches both cell values and hyperlinks (for image URLs) from the specified
+ * sheet range. Extracts hyperlinks from columns G and H which contain product images.
+ * 
+ * @param {any} sheets - Google Sheets API client instance
+ * @returns {Promise<{rows: any[][], hyperlinks: {[key: string]: string}}>} Object containing row data and hyperlink mappings
+ * @throws {Error} If sheet read fails
+ */
 async function readSheetData(sheets: any) {
   console.log('📖 Reading data from Google Sheets...')
   console.log(`   Sheet ID: ${GOOGLE_SHEET_ID}`)
@@ -126,7 +177,25 @@ async function readSheetData(sheets: any) {
   return { rows, hyperlinks }
 }
 
-// Map and filter products
+/**
+ * Processes and filters product data from Google Sheets rows
+ * 
+ * Maps raw sheet data to product objects with proper type conversion:
+ * - Column A (index 0): Product name
+ * - Column B (index 1): Brand name
+ * - Column E (index 4): Stock quantity (parsed as integer)
+ * - Column F (index 5): Price (parses ruble format: ₽27,000.00 → 27000.00)
+ * - Column G (index 6): First image URL (extracts from hyperlinks or cell value)
+ * - Column H (index 7): Second image URL (extracts from hyperlinks or cell value)
+ * 
+ * Filters out products with:
+ * - Missing product name
+ * - Stock <= 0
+ * 
+ * @param {any[][]} rows - Array of row data from Google Sheets
+ * @param {{[key: string]: string}} hyperlinks - Map of cell hyperlinks (key: "rowIndex_colIndex", value: URL)
+ * @returns {Array<Object>} Array of processed product objects ready for database insertion
+ */
 function processProducts(rows: any[][], hyperlinks: { [key: string]: string } = {}) {
   console.log('🔄 Processing products...')
   
@@ -240,7 +309,17 @@ function processProducts(rows: any[][], hyperlinks: { [key: string]: string } = 
   return products
 }
 
-// Delete all existing products
+/**
+ * Deletes all existing products from Supabase
+ * 
+ * First fetches all product IDs, then deletes them in a single operation.
+ * This ensures a clean slate before inserting new products.
+ * 
+ * Uses Supabase service role key for elevated permissions required to delete all records.
+ * 
+ * @returns {Promise<void>}
+ * @throws {Error} If fetch or deletion fails
+ */
 async function deleteAllProducts() {
   console.log('🗑️  Deleting all existing products...')
   
@@ -273,7 +352,16 @@ async function deleteAllProducts() {
   console.log('   ✅ All products deleted')
 }
 
-// Insert products into Supabase
+/**
+ * Inserts products into Supabase database
+ * 
+ * Inserts products in batches of 100 to avoid payload size limits.
+ * Logs progress for each batch and sample data for debugging.
+ * 
+ * @param {Array<Object>} products - Array of product objects to insert
+ * @returns {Promise<void>}
+ * @throws {Error} If insertion fails for any batch
+ */
 async function insertProducts(products: any[]) {
   if (products.length === 0) {
     console.log('⚠️  No products to insert')
@@ -308,7 +396,20 @@ async function insertProducts(products: any[]) {
   console.log(`   ✅ Successfully inserted ${products.length} products`)
 }
 
-// Main sync function
+/**
+ * Main synchronization function
+ * 
+ * Orchestrates the complete sync process:
+ * 1. Initialize Google Sheets API
+ * 2. Read data from Google Sheets
+ * 3. Process and filter products
+ * 4. Delete existing products
+ * 5. Insert new products
+ * 
+ * Handles errors and exits with appropriate status codes.
+ * 
+ * @returns {Promise<void>}
+ */
 async function sync() {
   try {
     console.log('🚀 Starting Google Sheets to Supabase sync...\n')

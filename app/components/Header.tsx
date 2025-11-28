@@ -1,9 +1,31 @@
+/**
+ * @fileoverview Header navigation component
+ * 
+ * Provides the main site navigation with logo, menu links, and contact button.
+ * Features a fixed header that stays at the top during scroll, with responsive
+ * design for mobile and desktop views.
+ * 
+ * The logo automatically falls back to a text-based version if the image file
+ * is not found, maintaining brand consistency.
+ */
+
 'use client'
 
 import Link from 'next/link'
 import Image from 'next/image'
 import { useState, useEffect } from 'react'
 
+/**
+ * Header component with navigation and logo
+ * 
+ * Displays:
+ * - Company logo (with fallback to text logo)
+ * - Navigation links (Home, About, Collection)
+ * - WhatsApp contact button
+ * - Mobile menu button (for responsive design)
+ * 
+ * @returns {JSX.Element} Fixed header navigation bar
+ */
 export default function Header() {
   const [logoExists, setLogoExists] = useState(false)
 
