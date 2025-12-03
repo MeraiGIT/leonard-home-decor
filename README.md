@@ -4,7 +4,7 @@ A luxury e-commerce website for premium home decor and fine tableware, featuring
 
 ## 🎯 Project Description
 
-Leonard Home Decor is a modern, elegant e-commerce platform that showcases a curated collection of luxury home decor items. The website features a sophisticated design with maroon and gold branding, displaying products synced from Google Sheets to Supabase in real-time.
+Leonard Home Decor is a modern, elegant e-commerce platform that showcases a curated collection of luxury home decor items. The website features a sophisticated design with maroon and gold branding, displaying products synced from Google Sheets to Supabase in real-time. A project working flawlessy like magic. 
 
 ## ✨ Features
 
