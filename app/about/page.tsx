@@ -116,10 +116,10 @@ export default function About() {
             </motion.div>
             
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 mb-16">
-              {['Lalique', 'Baccarat', 'Christofle', 'Ralph Lauren', 'DAUM', 'ROBBE & BERKING', 'VIDO', 'LLADRO', 'DERNARDAUD', 'HAVILAND', 'MEISSEN'].map((brand, index) => (
+              {['Lalique', 'Baccarat', 'Christofle', 'Ralph Lauren', 'DAUM', 'ROBBE & BERKING', 'VIDO', 'LLADRO', 'DERNARDAUD', 'HAVILAND', 'MEISSEN', 'ROSENTHAL'].map((brand, index) => (
                 <motion.div
                   key={brand}
-                  className="brand-card text-center py-10 px-4 border-2 transition-all duration-300 group relative overflow-hidden"
+                  className="brand-card text-center py-6 sm:py-10 px-4 border-2 transition-all duration-300 group relative overflow-hidden flex items-center justify-center min-h-[80px] sm:min-h-[120px]"
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
@@ -127,7 +127,7 @@ export default function About() {
                   whileHover={{ y: -4, scale: 1.02 }}
                 >
                   <div className="absolute inset-0 bg-gradient-to-br from-[#D4AF37]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  <h3 className="text-lg font-light text-black tracking-wide uppercase relative z-10 group-hover:text-[#722F37] transition-colors duration-300">
+                  <h3 className="text-sm sm:text-lg font-light text-black tracking-wide uppercase relative z-10 group-hover:text-[#722F37] transition-colors duration-300 leading-tight px-1">
                     {brand}
                   </h3>
                 </motion.div>
