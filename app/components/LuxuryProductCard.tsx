@@ -86,13 +86,13 @@ export default function LuxuryProductCard({ product }: LuxuryProductCardProps) {
             {product.brand}
           </p>
         )}
-        <h3 className="text-base font-serif text-gray-900 mb-3 line-clamp-2 min-h-[3rem] leading-relaxed">
+        <h3 className="text-base font-serif text-gray-900 mb-2 line-clamp-2 min-h-[3rem] leading-relaxed">
           {product.name}
         </h3>
         {formattedPrice && (
-          <div className="flex flex-col items-center">
-            <div className="w-12 h-px bg-gray-300 mb-2" />
-            <p className="text-2xl font-serif font-light text-gray-900">
+          <div className="flex flex-col items-start">
+            <div className="w-12 h-px bg-gray-300 mb-1.5" />
+            <p className="text-xl font-serif font-light text-gray-900">
               {formattedPrice}
             </p>
           </div>
