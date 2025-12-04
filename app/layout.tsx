@@ -8,29 +8,31 @@
  */
 
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Playfair_Display, Inter } from "next/font/google";
 import "./globals.css";
 
 /**
- * Geist Sans font configuration
+ * Playfair Display font configuration
  * 
- * Primary sans-serif font for the application.
+ * Serif font for headings and luxury typography.
  * Exported as CSS variable for use throughout the app.
  */
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+const playfair = Playfair_Display({ 
+  subsets: ['latin', 'cyrillic'],
+  variable: '--font-playfair',
+  display: 'swap',
 });
 
 /**
- * Geist Mono font configuration
+ * Inter font configuration
  * 
- * Monospace font for code and technical content.
+ * Sans-serif font for body text and UI elements.
  * Exported as CSS variable for use throughout the app.
  */
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const inter = Inter({ 
+  subsets: ['latin', 'cyrillic'],
+  variable: '--font-inter',
+  display: 'swap',
 });
 
 /**
@@ -67,7 +69,7 @@ export default function RootLayout({
   return (
     <html lang="ru">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${playfair.variable} ${inter.variable} antialiased`}
       >
         {children}
       </body>

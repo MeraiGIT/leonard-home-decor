@@ -16,9 +16,12 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
+import { motion } from 'framer-motion'
+import { Button } from "@/components/ui/button"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { supabase } from '@/lib/supabase'
 import Header from '@/app/components/Header'
+import LuxuryProductCard from '@/app/components/LuxuryProductCard'
 
 /**
  * Product data structure from Supabase
@@ -155,44 +158,93 @@ export default function Home() {
         </div>
 
         {/* Content */}
-        <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto animate-fade-in">
-          <div className="mb-8 animate-slide-up">
+        <motion.div 
+          className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto"
+          initial={{ scale: 0.95, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.6 }}
+        >
+          <motion.div 
+            className="mb-8"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.2, duration: 0.5 }}
+          >
             <div className="w-24 h-px bg-gradient-to-r from-transparent via-[#D4AF37]/50 to-transparent mx-auto mb-8" />
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-serif text-[#D4AF37] mb-6 tracking-wider uppercase letter-spacing-wider">
+            <motion.h1 
+              className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-serif text-[#D4AF37] mb-6 tracking-wider uppercase letter-spacing-wider"
+              initial={{ opacity: 0, y: -30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4, duration: 0.6 }}
+            >
               LEONARD
-          </h1>
+            </motion.h1>
             <div className="w-32 h-px bg-[#D4AF37] mx-auto my-2" />
             <h2 className="text-xl sm:text-2xl lg:text-3xl font-sans text-[#D4AF37] tracking-widest uppercase">
               HOME DECOR
             </h2>
             <div className="w-24 h-px bg-gradient-to-r from-transparent via-[#D4AF37]/50 to-transparent mx-auto mt-8" />
-          </div>
+          </motion.div>
           
-          <p className="text-lg sm:text-xl lg:text-2xl xl:text-3xl text-[#D4AF37]/90 mb-6 font-light tracking-wide animate-slide-up delay-100">
+          <motion.p 
+            className="text-lg sm:text-xl lg:text-2xl xl:text-3xl text-[#D4AF37]/90 mb-6 font-light tracking-wide"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6, duration: 0.6 }}
+          >
             Роскошный Домашний Декор и Изысканная Посуда
-          </p>
+          </motion.p>
           
-          <p className="text-sm sm:text-base lg:text-lg xl:text-xl text-[#D4AF37]/80 mb-12 max-w-2xl mx-auto font-light leading-relaxed animate-slide-up delay-200">
+          <motion.p 
+            className="text-sm sm:text-base lg:text-lg xl:text-xl text-[#D4AF37]/80 mb-12 max-w-2xl mx-auto font-light leading-relaxed"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8, duration: 0.6 }}
+          >
             Каталог Товаров в наличии в Москве
-          </p>
+          </motion.p>
           
-          <div className="animate-slide-up delay-300 flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Link
-              href="/about"
-              className="inline-block px-10 py-4 border border-[#D4AF37]/50 bg-[#D4AF37]/10 backdrop-blur-sm text-[#D4AF37] font-light tracking-wider uppercase text-sm hover:bg-[#D4AF37]/20 hover:border-[#D4AF37] transition-all duration-500 transform hover:scale-[1.02]"
+          <motion.div 
+            className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.0, duration: 0.6 }}
+          >
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
-              О нас
-            </Link>
-            <a
-              href="https://wa.me/79957844513"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block px-10 py-4 border border-[#D4AF37]/50 bg-[#D4AF37]/10 backdrop-blur-sm text-[#D4AF37] font-light tracking-wider uppercase text-sm hover:bg-[#D4AF37]/20 hover:border-[#D4AF37] transition-all duration-500 transform hover:scale-[1.02]"
+              <Button 
+                variant="outline" 
+                size="lg"
+                asChild
+                className="rounded-none px-10 py-4 border border-[#D4AF37]/50 bg-[#D4AF37]/10 backdrop-blur-sm text-[#D4AF37] font-light tracking-wider uppercase text-sm hover:bg-[#D4AF37]/20 hover:border-[#D4AF37]"
+              >
+                <Link href="/about">
+                  О нас
+                </Link>
+              </Button>
+            </motion.div>
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
-              Связаться с нами
-            </a>
-          </div>
-        </div>
+              <Button 
+                size="lg"
+                asChild
+                className="rounded-none px-10 py-4 border border-[#D4AF37]/50 bg-[#D4AF37]/10 backdrop-blur-sm text-[#D4AF37] font-light tracking-wider uppercase text-sm hover:bg-[#D4AF37]/20 hover:border-[#D4AF37]"
+              >
+                <a
+                  href="https://wa.me/79957844513"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Связаться с нами
+                </a>
+              </Button>
+            </motion.div>
+          </motion.div>
+        </motion.div>
 
         {/* Decorative elements */}
         <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 animate-bounce-slow">
@@ -202,12 +254,18 @@ export default function Home() {
 
       {/* Products Section */}
       <section id="collection" className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-light text-black mb-4 tracking-wide uppercase">
+        <motion.div 
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-light font-serif text-black mb-4 tracking-wide uppercase">
             Наша Коллекция
           </h2>
           <div className="w-20 h-px bg-gradient-to-r from-transparent via-black/30 to-transparent mx-auto" />
-        </div>
+        </motion.div>
 
         {/* Filters */}
         <div className="flex flex-col sm:flex-row gap-6 mb-16 max-w-2xl mx-auto">
@@ -216,25 +274,22 @@ export default function Home() {
             <label htmlFor="brand-filter" className="block text-xs font-light text-gray-600 mb-3 uppercase tracking-wider">
               Бренд
             </label>
-            <select
-              id="brand-filter"
-              value={selectedBrand}
-              onChange={(e) => setSelectedBrand(e.target.value)}
-              className="w-full px-5 py-3 border border-gray-300 bg-white text-black font-light tracking-wide focus:outline-none focus:border-black transition-colors duration-300 appearance-none cursor-pointer"
-              style={{
-                backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23000' d='M6 9L1 4h10z'/%3E%3C/svg%3E")`,
-                backgroundRepeat: 'no-repeat',
-                backgroundPosition: 'right 15px center',
-                paddingRight: '40px'
-              }}
-            >
-              <option value="all">Все Бренды</option>
-              {brands.map((brand) => (
-                <option key={brand} value={brand}>
-                  {brand}
-                </option>
-              ))}
-            </select>
+            <Select value={selectedBrand} onValueChange={setSelectedBrand}>
+              <SelectTrigger 
+                id="brand-filter"
+                className="w-full px-5 py-3 border border-gray-300 bg-white text-black font-light tracking-wide focus:outline-none focus:border-black transition-colors duration-300"
+              >
+                <SelectValue placeholder="Все Бренды" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Все Бренды</SelectItem>
+                {brands.map((brand) => (
+                  <SelectItem key={brand} value={brand}>
+                    {brand}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
 
           {/* Price Filter */}
@@ -242,23 +297,20 @@ export default function Home() {
             <label htmlFor="price-filter" className="block text-xs font-light text-gray-600 mb-3 uppercase tracking-wider">
               Цена
             </label>
-            <select
-              id="price-filter"
-              value={selectedPrice}
-              onChange={(e) => setSelectedPrice(e.target.value)}
-              className="w-full px-5 py-3 border border-gray-300 bg-white text-black font-light tracking-wide focus:outline-none focus:border-black transition-colors duration-300 appearance-none cursor-pointer"
-              style={{
-                backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23000' d='M6 9L1 4h10z'/%3E%3C/svg%3E")`,
-                backgroundRepeat: 'no-repeat',
-                backgroundPosition: 'right 15px center',
-                paddingRight: '40px'
-              }}
-            >
-              <option value="all">Все Цены</option>
-              <option value="under-50000">До 50 000 ₽</option>
-              <option value="50000-150000">50 000 - 150 000 ₽</option>
-              <option value="over-150000">Свыше 150 000 ₽</option>
-            </select>
+            <Select value={selectedPrice} onValueChange={setSelectedPrice}>
+              <SelectTrigger 
+                id="price-filter"
+                className="w-full px-5 py-3 border border-gray-300 bg-white text-black font-light tracking-wide focus:outline-none focus:border-black transition-colors duration-300"
+              >
+                <SelectValue placeholder="Все Цены" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Все Цены</SelectItem>
+                <SelectItem value="under-50000">До 50 000 ₽</SelectItem>
+                <SelectItem value="50000-150000">50 000 - 150 000 ₽</SelectItem>
+                <SelectItem value="over-150000">Свыше 150 000 ₽</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
         </div>
 
@@ -273,8 +325,16 @@ export default function Home() {
           </div>
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10">
-            {filteredProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
+            {filteredProducts.map((product, index) => (
+              <motion.div
+                key={product.id}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.05 }}
+              >
+                <LuxuryProductCard product={product} />
+              </motion.div>
             ))}
           </div>
         )}
@@ -377,63 +437,3 @@ export default function Home() {
   )
 }
 
-/**
- * Product Card Component
- * 
- * Displays a single product in the product grid with:
- * - Square image container with hover effect (switches to image_url_2 on hover)
- * - Brand name (small, gray text)
- * - Product name (bold, 2 lines max with ellipsis)
- * - Price in rubles format
- * 
- * @param {Object} props - Component props
- * @param {Product} props.product - Product data object containing id, name, brand, price, stock, and image URLs
- * 
- * @returns {JSX.Element} Product card with image, brand, name, and price
- */
-function ProductCard({ product }: { product: Product }) {
-  const [hovered, setHovered] = useState(false)
-  const imageUrl = hovered && product.image_url_2 ? product.image_url_2 : product.image_url_1
-
-  return (
-    <div
-      className="group cursor-default"
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
-      {/* Image Container */}
-      <div className="relative w-full aspect-square bg-neutral-100 mb-5 overflow-hidden group-hover:opacity-95 transition-opacity duration-500">
-        {imageUrl ? (
-          <Image
-            src={imageUrl}
-            alt={product.name}
-            fill
-            className="object-cover transition-all duration-700 group-hover:scale-105"
-            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 20vw"
-          />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center bg-neutral-200 text-gray-400 text-xs font-light uppercase tracking-wide">
-            Нет изображения
-          </div>
-        )}
-      </div>
-
-      {/* Product Info */}
-      <div>
-        {product.brand && (
-          <p className="text-xs text-gray-500 mb-2 uppercase tracking-widest font-light">
-            {product.brand}
-          </p>
-        )}
-        <h3 className="text-base font-light text-black mb-3 line-clamp-2 min-h-[3rem] leading-relaxed">
-          {product.name}
-        </h3>
-        {product.price !== null && (
-          <p className="text-xl font-light text-black tracking-wide">
-            {product.price.toLocaleString('ru-RU', { minimumFractionDigits: 0, maximumFractionDigits: 0 })} ₽
-          </p>
-        )}
-      </div>
-    </div>
-  )
-}
