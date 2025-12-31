@@ -261,9 +261,9 @@ export default function Home() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-light font-serif text-black mb-4 tracking-wide uppercase">
-            Наша Коллекция
-          </h2>
+           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-light font-serif text-black mb-4 tracking-wide uppercase">
+             Товары В Наличии
+           </h2>
           <div className="w-20 h-px bg-gradient-to-r from-transparent via-black/30 to-transparent mx-auto" />
         </motion.div>
 
